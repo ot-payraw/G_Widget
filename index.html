@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Responsive Slider</title>
+<title>Responsive Slider for Google Sites</title>
 <style>
   * {
     box-sizing: border-box;
@@ -19,17 +19,20 @@
   }
   .slider {
     position: relative;
-    width: 90vw;
-    max-width: 900px;
-    height: 450px;
+    width: 100%;         /* fill the container */
+    max-width: 900px;    /* optional max width */
+    padding-top: 50%;    /* aspect ratio 2:1 (height is 50% of width) */
     overflow: hidden;
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    background: #222; /* fallback bg */
   }
   .slides {
     display: flex;
     width: 400%; /* 4 slides */
     height: 100%;
+    position: absolute;
+    top: 0; left: 0;
     transition: transform 0.6s ease-in-out;
   }
   .slide {
@@ -42,11 +45,12 @@
     padding: 30px;
     background-size: cover;
     background-position: center;
+    height: 100%;
   }
   .slide-content {
     background: rgba(0,0,0,0.5);
     padding: 20px;
-    max-width: 500px;
+    max-width: 90%;
     border-radius: 10px;
   }
   .slide h2 {
@@ -125,8 +129,9 @@
   /* RESPONSIVE IMPROVEMENTS */
   @media (max-width: 768px) {
     .slider {
-      height: 320px;
-      width: 95vw;
+      padding-top: 60%; /* slightly taller on smaller screens */
+      max-width: 100%;
+      border-radius: 12px;
     }
     .slide-content {
       max-width: 90%;
@@ -152,12 +157,11 @@
 
   @media (max-width: 480px) {
     .slider {
-      height: 260px;
-      width: 100vw;
+      padding-top: 70%; /* taller for very small screens */
       border-radius: 0;
     }
     .slide-content {
-      max-width: 50%;
+      max-width: 90%;
       padding: 12px;
       background: rgba(0,0,0,0.6);
     }
@@ -263,7 +267,6 @@
     goToSlide(currentIndex - 1);
   }
 
-  // Auto play slider
   function startAutoSlide() {
     slideInterval = setInterval(nextSlide, slideDuration);
   }
@@ -271,7 +274,6 @@
     clearInterval(slideInterval);
   }
 
-  // Event listeners
   nextBtn.addEventListener('click', () => {
     nextSlide();
     stopAutoSlide();
@@ -299,7 +301,6 @@
     });
   });
 
-  // Keyboard navigation for arrows
   [prevBtn, nextBtn].forEach(btn => {
     btn.addEventListener('keydown', e => {
       if(e.key === 'Enter' || e.key === ' ') {
