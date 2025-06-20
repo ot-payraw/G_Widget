@@ -18,6 +18,7 @@
             width: 100% !important;
             max-width: 100% !important;
             height: 90vh;
+            max-height: 400px;
             position: relative;
             overflow: hidden;
             border-radius: 8px;
@@ -121,7 +122,8 @@
         /* Mobile fallback */
         @media (max-width: 768px) {
             .gs-slider-container {
-                height: 300px;
+                height: 0px;
+                display: hidden;
             }
             
             .gs-slide-title {
@@ -134,7 +136,7 @@
         }
     </style>
 </head>
-<body style="height: 90vh;">
+<body>
     <div class="gs-slider-container">
         <div class="gs-slider">
             <div class="gs-slide">
