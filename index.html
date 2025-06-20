@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfect Slider</title>
+    <title>Luxury Watch Slider</title>
     <style>
         * {
             margin: 0;
@@ -146,24 +146,24 @@
         }
 
         /* Mobile-specific adjustments */
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             .slider-wrapper {
-                aspect-ratio: 3/4; /* More square on mobile */
+                display: none; /* Hide the slider on mobile */
             }
             
-            .slide-content {
-                padding: 15px;
+            .mobile-message {
+                display: block;
+                text-align: center;
+                padding: 20px;
+                background: #f5f5f5;
+                border-radius: 8px;
+                margin: 10px;
             }
-            
-            .slider-arrow {
-                width: 30px;
-                height: 30px;
-                font-size: 1rem;
-            }
-            
-            .slider-dot {
-                width: 8px;
-                height: 8px;
+        }
+
+        @media (min-width: 769px) {
+            .mobile-message {
+                display: none;
             }
         }
 
@@ -179,6 +179,10 @@
             max-width: 100% !important;
             overflow: hidden !important;
         }
+        
+        .mobile-message {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -186,7 +190,7 @@
         <div class="slider-container">
             <div class="slider">
                 <div class="slide">
-                    <img src="https://images.pexels.com/photos/364822/rolex-watch-time-luxury-364822.jpeg" alt="Nature" class="slide-image">
+                    <img src="https://images.pexels.com/photos/364822/rolex-watch-time-luxury-364822.jpeg" alt="Luxury Watch" class="slide-image">
                     <div class="slide-overlay"></div>
                     <div class="slide-content">
                         <h2 class="slide-title">Timeless Elegance on Your Wrist</h2>
@@ -194,15 +198,15 @@
                     </div>
                 </div>
                 <div class="slide">
-                    <img src="https://images.pexels.com/photos/277319/pexels-photo-277319.jpeg" alt="City" class="slide-image">
+                    <img src="https://images.pexels.com/photos/277319/pexels-photo-277319.jpeg" alt="Watch Craftsmanship" class="slide-image">
                     <div class="slide-overlay"></div>
                     <div class="slide-content">
                         <h2 class="slide-title">Craftsmanship Beyond Time</h2>
-                        <p class="slide-text"> Explore Exquisite Watches That Define Sophistication and Legacy</p>
+                        <p class="slide-text">Explore Exquisite Watches That Define Sophistication and Legacy</p>
                     </div>
                 </div>
                 <div class="slide">
-                    <img src="https://images.pexels.com/photos/1432234/pexels-photo-1432234.jpeg" alt="Tech" class="slide-image">
+                    <img src="https://images.pexels.com/photos/1432234/pexels-photo-1432234.jpeg" alt="Innovative Watch" class="slide-image">
                     <div class="slide-overlay"></div>
                     <div class="slide-content">
                         <h2 class="slide-title">Where Luxury Meets Innovation</h2>
@@ -217,148 +221,156 @@
             <button class="slider-arrow next" aria-label="Next slide">❯</button>
         </div>
     </div>
+    
+    <div class="mobile-message">
+        <h3>Luxury Watch Collection</h3>
+        <p>Explore our premium watch collection on desktop for the best experience.</p>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const slider = document.querySelector('.slider');
-            const slides = document.querySelectorAll('.slide');
-            const dotsContainer = document.querySelector('.slider-nav');
-            const prevBtn = document.querySelector('.prev');
-            const nextBtn = document.querySelector('.next');
-            const wrapper = document.querySelector('.slider-wrapper');
-            
-            let currentIndex = 0;
-            const slideCount = slides.length;
-            let isAnimating = false;
-            let touchStartX = 0;
-            let touchEndX = 0;
-            let slideInterval;
-            
-            // Initialize slider
-            function initSlider() {
-                // Create dots
-                slides.forEach((_, index) => {
-                    const dot = document.createElement('button');
-                    dot.classList.add('slider-dot');
-                    dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
-                    if (index === 0) dot.classList.add('active');
-                    dot.addEventListener('click', () => goToSlide(index));
-                    dotsContainer.appendChild(dot);
-                });
+            // Only initialize if slider is visible (desktop)
+            if (window.getComputedStyle(document.querySelector('.slider-wrapper')).display !== 'none') {
+                const slider = document.querySelector('.slider');
+                const slides = document.querySelectorAll('.slide');
+                const dotsContainer = document.querySelector('.slider-nav');
+                const prevBtn = document.querySelector('.prev');
+                const nextBtn = document.querySelector('.next');
+                const wrapper = document.querySelector('.slider-wrapper');
+                
+                let currentIndex = 0;
+                const slideCount = slides.length;
+                let isAnimating = false;
+                let touchStartX = 0;
+                let touchEndX = 0;
+                let slideInterval;
+                
+                // Initialize slider
+                function initSlider() {
+                    // Create dots
+                    slides.forEach((_, index) => {
+                        const dot = document.createElement('button');
+                        dot.classList.add('slider-dot');
+                        dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+                        if (index === 0) dot.classList.add('active');
+                        dot.addEventListener('click', () => goToSlide(index));
+                        dotsContainer.appendChild(dot);
+                    });
+                    
+                    // Start auto-slide
+                    startAutoSlide();
+                    
+                    // Set initial active slide
+                    updateSlider();
+                }
                 
                 // Start auto-slide
-                startAutoSlide();
+                function startAutoSlide() {
+                    slideInterval = setInterval(() => {
+                        nextSlide();
+                    }, 5000);
+                }
                 
-                // Set initial active slide
-                updateSlider();
-            }
-            
-            // Start auto-slide
-            function startAutoSlide() {
-                slideInterval = setInterval(() => {
+                // Reset auto-slide timer
+                function resetInterval() {
+                    clearInterval(slideInterval);
+                    startAutoSlide();
+                }
+                
+                // Go to specific slide
+                function goToSlide(index) {
+                    if (isAnimating) return;
+                    
+                    currentIndex = index;
+                    updateSlider();
+                    resetInterval();
+                }
+                
+                // Next slide
+                function nextSlide() {
+                    if (isAnimating) return;
+                    
+                    currentIndex = (currentIndex + 1) % slideCount;
+                    updateSlider();
+                }
+                
+                // Previous slide
+                function prevSlide() {
+                    if (isAnimating) return;
+                    
+                    currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+                    updateSlider();
+                }
+                
+                // Update slider visuals
+                function updateSlider() {
+                    isAnimating = true;
+                    
+                    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+                    
+                    // Update dots
+                    const dots = document.querySelectorAll('.slider-dot');
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentIndex);
+                    });
+                    
+                    // Reset animation flag after transition ends
+                    slider.addEventListener('transitionend', () => {
+                        isAnimating = false;
+                    }, { once: true });
+                }
+                
+                // Event listeners
+                nextBtn.addEventListener('click', () => {
                     nextSlide();
-                }, 5000);
-            }
-            
-            // Reset auto-slide timer
-            function resetInterval() {
-                clearInterval(slideInterval);
-                startAutoSlide();
-            }
-            
-            // Go to specific slide
-            function goToSlide(index) {
-                if (isAnimating) return;
-                
-                currentIndex = index;
-                updateSlider();
-                resetInterval();
-            }
-            
-            // Next slide
-            function nextSlide() {
-                if (isAnimating) return;
-                
-                currentIndex = (currentIndex + 1) % slideCount;
-                updateSlider();
-            }
-            
-            // Previous slide
-            function prevSlide() {
-                if (isAnimating) return;
-                
-                currentIndex = (currentIndex - 1 + slideCount) % slideCount;
-                updateSlider();
-            }
-            
-            // Update slider visuals
-            function updateSlider() {
-                isAnimating = true;
-                
-                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-                
-                // Update dots
-                const dots = document.querySelectorAll('.slider-dot');
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === currentIndex);
+                    resetInterval();
                 });
                 
-                // Reset animation flag after transition ends
-                slider.addEventListener('transitionend', () => {
-                    isAnimating = false;
-                }, { once: true });
-            }
-            
-            // Event listeners
-            nextBtn.addEventListener('click', () => {
-                nextSlide();
-                resetInterval();
-            });
-            
-            prevBtn.addEventListener('click', () => {
-                prevSlide();
-                resetInterval();
-            });
-            
-            // Touch events for mobile
-            wrapper.addEventListener('touchstart', (e) => {
-                touchStartX = e.touches[0].clientX;
-                clearInterval(slideInterval);
-            }, { passive: true });
-            
-            wrapper.addEventListener('touchmove', (e) => {
-                touchEndX = e.touches[0].clientX;
-            }, { passive: true });
-            
-            wrapper.addEventListener('touchend', () => {
-                handleSwipe();
-                resetInterval();
-            }, { passive: true });
-            
-            // Handle swipe gestures
-            function handleSwipe() {
-                const threshold = 50;
-                if (touchEndX < touchStartX - threshold) {
-                    nextSlide();
-                } else if (touchEndX > touchStartX + threshold) {
+                prevBtn.addEventListener('click', () => {
                     prevSlide();
+                    resetInterval();
+                });
+                
+                // Touch events for mobile (though hidden on mobile)
+                wrapper.addEventListener('touchstart', (e) => {
+                    touchStartX = e.touches[0].clientX;
+                    clearInterval(slideInterval);
+                }, { passive: true });
+                
+                wrapper.addEventListener('touchmove', (e) => {
+                    touchEndX = e.touches[0].clientX;
+                }, { passive: true });
+                
+                wrapper.addEventListener('touchend', () => {
+                    handleSwipe();
+                    resetInterval();
+                }, { passive: true });
+                
+                // Handle swipe gestures
+                function handleSwipe() {
+                    const threshold = 50;
+                    if (touchEndX < touchStartX - threshold) {
+                        nextSlide();
+                    } else if (touchEndX > touchStartX + threshold) {
+                        prevSlide();
+                    }
                 }
+                
+                // Pause on hover
+                wrapper.addEventListener('mouseenter', () => {
+                    clearInterval(slideInterval);
+                });
+                
+                wrapper.addEventListener('mouseleave', () => {
+                    resetInterval();
+                });
+                
+                // Initialize
+                initSlider();
+                
+                // Force reflow to prevent initial animation
+                void slider.offsetWidth;
             }
-            
-            // Pause on hover
-            wrapper.addEventListener('mouseenter', () => {
-                clearInterval(slideInterval);
-            });
-            
-            wrapper.addEventListener('mouseleave', () => {
-                resetInterval();
-            });
-            
-            // Initialize
-            initSlider();
-            
-            // Force reflow to prevent initial animation
-            void slider.offsetWidth;
         });
     </script>
 </body>
