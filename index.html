@@ -3,374 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxury Watch Slider</title>
+    <title>Google Sites Compatible Slider</title>
     <style>
-        * {
+        /* Reset for Google Sites compatibility */
+        .gs-slider-container, 
+        .gs-slider-container * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
         }
-
-        body {
-            overflow-x: hidden;
-        }
-
-        .slider-wrapper {
-            width: 100%;
-            max-width: 100%;
+        
+        .gs-slider-container {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 90hv;
+            position: relative;
             overflow: hidden;
-            position: relative;
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            aspect-ratio: 16/9; /* Maintain aspect ratio */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-
-        .slider-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .slider {
+        
+        .gs-slider {
             width: 100%;
             height: 100%;
             display: flex;
-            transition: transform 0.6s ease;
+            transition: transform 0.5s ease;
         }
-
-        .slide {
+        
+        .gs-slide {
             min-width: 100%;
             height: 100%;
             position: relative;
             flex-shrink: 0;
         }
-
-        .slide-image {
+        
+        .gs-slide-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
         }
-
-        .slide-overlay {
+        
+        .gs-slide-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6));
+            background: rgba(0,0,0,0.3);
         }
-
-        .slide-content {
+        
+        .gs-slide-content {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px;
+            bottom: 20px;
+            left: 20px;
             color: white;
-            z-index: 2;
+            max-width: 80%;
         }
-
-        .slide-title {
-            font-size: clamp(1.5rem, 4vw, 2.2rem);
-            font-weight: 700;
-            margin-bottom: 8px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        
+        .gs-slide-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
-
-        .slide-text {
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            line-height: 1.4;
-            max-width: 100%;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        
+        .gs-slide-text {
+            font-size: 16px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
-
-        .slider-nav {
+        
+        .gs-slider-nav {
             position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: 20px;
+            right: 20px;
             display: flex;
-            z-index: 3;
-            gap: 8px;
+            gap: 10px;
         }
-
-        .slider-dot {
-            width: 10px;
-            height: 10px;
+        
+        .gs-slider-dot {
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255,255,255,0.5);
             cursor: pointer;
-            transition: all 0.3s;
             border: none;
-            padding: 0;
         }
-
-        .slider-dot.active {
+        
+        .gs-slider-dot.active {
             background: white;
-            transform: scale(1.2);
         }
-
-        .slider-arrow {
+        
+        .gs-slider-arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.3);
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.3);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 3;
-            transition: all 0.3s;
             color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
+            font-size: 20px;
             border: none;
         }
-
-        .slider-arrow:hover {
-            background: rgba(255, 255, 255, 0.7);
-            color: #333;
+        
+        .gs-slider-arrow.prev {
+            left: 15px;
         }
-
-        .slider-arrow.prev {
-            left: 10px;
+        
+        .gs-slider-arrow.next {
+            right: 15px;
         }
-
-        .slider-arrow.next {
-            right: 10px;
-        }
-
-        /* Mobile-specific adjustments */
+        
+        /* Mobile fallback */
         @media (max-width: 768px) {
-            .slider-wrapper {
-                display: none; /* Hide the slider on mobile */
+            .gs-slider-container {
+                height: 300px;
             }
             
-            .mobile-message {
-                display: block;
-                text-align: center;
-                padding: 20px;
-                background: #f5f5f5;
-                border-radius: 8px;
-                margin: 10px;
+            .gs-slide-title {
+                font-size: 20px;
             }
-        }
-
-        @media (min-width: 769px) {
-            .mobile-message {
-                display: none;
+            
+            .gs-slide-text {
+                font-size: 14px;
             }
-        }
-
-        /* Prevent any potential overflow */
-        html, body {
-            width: 100%;
-            overflow-x: hidden;
-        }
-        
-        /* Google Sites embed specific fixes */
-        .embed-container {
-            width: 100% !important;
-            max-width: 100% !important;
-            overflow: hidden !important;
-        }
-        
-        .mobile-message {
-            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="slider-wrapper">
-        <div class="slider-container">
-            <div class="slider">
-                <div class="slide">
-                    <img src="https://images.pexels.com/photos/364822/rolex-watch-time-luxury-364822.jpeg" alt="Luxury Watch" class="slide-image">
-                    <div class="slide-overlay"></div>
-                    <div class="slide-content">
-                        <h2 class="slide-title">Timeless Elegance on Your Wrist</h2>
-                        <p class="slide-text">Discover the Art of Precision and Style in Every Luxury Watch</p>
-                    </div>
-                </div>
-                <div class="slide">
-                    <img src="https://images.pexels.com/photos/277319/pexels-photo-277319.jpeg" alt="Watch Craftsmanship" class="slide-image">
-                    <div class="slide-overlay"></div>
-                    <div class="slide-content">
-                        <h2 class="slide-title">Craftsmanship Beyond Time</h2>
-                        <p class="slide-text">Explore Exquisite Watches That Define Sophistication and Legacy</p>
-                    </div>
-                </div>
-                <div class="slide">
-                    <img src="https://images.pexels.com/photos/1432234/pexels-photo-1432234.jpeg" alt="Innovative Watch" class="slide-image">
-                    <div class="slide-overlay"></div>
-                    <div class="slide-content">
-                        <h2 class="slide-title">Where Luxury Meets Innovation</h2>
-                        <p class="slide-text">Elevate Your Look with Watches Designed for the Discerning Few</p>
-                    </div>
+    <div class="gs-slider-container">
+        <div class="gs-slider">
+            <div class="gs-slide">
+                <img src="https://images.pexels.com/photos/364822/rolex-watch-time-luxury-364822.jpeg" class="gs-slide-img" alt="Luxury Watch">
+                <div class="gs-slide-overlay"></div>
+                <div class="gs-slide-content">
+                    <h3 class="gs-slide-title">Timeless Elegance</h3>
+                    <p class="gs-slide-text">Discover our premium watch collection</p>
                 </div>
             </div>
-            
-            <div class="slider-nav"></div>
-            
-            <button class="slider-arrow prev" aria-label="Previous slide">❮</button>
-            <button class="slider-arrow next" aria-label="Next slide">❯</button>
+            <div class="gs-slide">
+                <img src="https://images.pexels.com/photos/277319/pexels-photo-277319.jpeg" class="gs-slide-img" alt="Watch Craftsmanship">
+                <div class="gs-slide-overlay"></div>
+                <div class="gs-slide-content">
+                    <h3 class="gs-slide-title">Expert Craftsmanship</h3>
+                    <p class="gs-slide-text">Precision engineering at its finest</p>
+                </div>
+            </div>
+            <div class="gs-slide">
+                <img src="https://images.pexels.com/photos/1432234/pexels-photo-1432234.jpeg" class="gs-slide-img" alt="Modern Design">
+                <div class="gs-slide-overlay"></div>
+                <div class="gs-slide-content">
+                    <h3 class="gs-slide-title">Modern Designs</h3>
+                    <p class="gs-slide-text">Contemporary styles for every occasion</p>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <div class="mobile-message">
-        <h3>Luxury Watch Collection</h3>
-        <p>Explore our premium watch collection on desktop for the best experience.</p>
+        
+        <div class="gs-slider-nav"></div>
+        
+        <button class="gs-slider-arrow prev">‹</button>
+        <button class="gs-slider-arrow next">›</button>
     </div>
 
     <script>
+        // Simple JavaScript that works in Google Sites
         document.addEventListener('DOMContentLoaded', function() {
-            // Only initialize if slider is visible (desktop)
-            if (window.getComputedStyle(document.querySelector('.slider-wrapper')).display !== 'none') {
-                const slider = document.querySelector('.slider');
-                const slides = document.querySelectorAll('.slide');
-                const dotsContainer = document.querySelector('.slider-nav');
-                const prevBtn = document.querySelector('.prev');
-                const nextBtn = document.querySelector('.next');
-                const wrapper = document.querySelector('.slider-wrapper');
-                
-                let currentIndex = 0;
-                const slideCount = slides.length;
-                let isAnimating = false;
-                let touchStartX = 0;
-                let touchEndX = 0;
-                let slideInterval;
-                
-                // Initialize slider
-                function initSlider() {
-                    // Create dots
-                    slides.forEach((_, index) => {
-                        const dot = document.createElement('button');
-                        dot.classList.add('slider-dot');
-                        dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
-                        if (index === 0) dot.classList.add('active');
-                        dot.addEventListener('click', () => goToSlide(index));
-                        dotsContainer.appendChild(dot);
-                    });
-                    
-                    // Start auto-slide
-                    startAutoSlide();
-                    
-                    // Set initial active slide
+            const slider = document.querySelector('.gs-slider');
+            const slides = document.querySelectorAll('.gs-slide');
+            const dotsContainer = document.querySelector('.gs-slider-nav');
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            
+            let currentIndex = 0;
+            
+            // Create dots
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'gs-slider-dot';
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    currentIndex = i;
                     updateSlider();
-                }
-                
-                // Start auto-slide
-                function startAutoSlide() {
-                    slideInterval = setInterval(() => {
-                        nextSlide();
-                    }, 5000);
-                }
-                
-                // Reset auto-slide timer
-                function resetInterval() {
-                    clearInterval(slideInterval);
-                    startAutoSlide();
-                }
-                
-                // Go to specific slide
-                function goToSlide(index) {
-                    if (isAnimating) return;
-                    
-                    currentIndex = index;
-                    updateSlider();
-                    resetInterval();
-                }
-                
-                // Next slide
-                function nextSlide() {
-                    if (isAnimating) return;
-                    
-                    currentIndex = (currentIndex + 1) % slideCount;
-                    updateSlider();
-                }
-                
-                // Previous slide
-                function prevSlide() {
-                    if (isAnimating) return;
-                    
-                    currentIndex = (currentIndex - 1 + slideCount) % slideCount;
-                    updateSlider();
-                }
-                
-                // Update slider visuals
-                function updateSlider() {
-                    isAnimating = true;
-                    
-                    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-                    
-                    // Update dots
-                    const dots = document.querySelectorAll('.slider-dot');
-                    dots.forEach((dot, index) => {
-                        dot.classList.toggle('active', index === currentIndex);
-                    });
-                    
-                    // Reset animation flag after transition ends
-                    slider.addEventListener('transitionend', () => {
-                        isAnimating = false;
-                    }, { once: true });
-                }
-                
-                // Event listeners
-                nextBtn.addEventListener('click', () => {
-                    nextSlide();
-                    resetInterval();
                 });
+                dotsContainer.appendChild(dot);
+            });
+            
+            const dots = document.querySelectorAll('.gs-slider-dot');
+            
+            // Update slider position
+            function updateSlider() {
+                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
                 
-                prevBtn.addEventListener('click', () => {
-                    prevSlide();
-                    resetInterval();
+                // Update dots
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
                 });
-                
-                // Touch events for mobile (though hidden on mobile)
-                wrapper.addEventListener('touchstart', (e) => {
-                    touchStartX = e.touches[0].clientX;
-                    clearInterval(slideInterval);
-                }, { passive: true });
-                
-                wrapper.addEventListener('touchmove', (e) => {
-                    touchEndX = e.touches[0].clientX;
-                }, { passive: true });
-                
-                wrapper.addEventListener('touchend', () => {
-                    handleSwipe();
-                    resetInterval();
-                }, { passive: true });
-                
-                // Handle swipe gestures
-                function handleSwipe() {
-                    const threshold = 50;
-                    if (touchEndX < touchStartX - threshold) {
-                        nextSlide();
-                    } else if (touchEndX > touchStartX + threshold) {
-                        prevSlide();
-                    }
-                }
-                
-                // Pause on hover
-                wrapper.addEventListener('mouseenter', () => {
-                    clearInterval(slideInterval);
-                });
-                
-                wrapper.addEventListener('mouseleave', () => {
-                    resetInterval();
-                });
-                
-                // Initialize
-                initSlider();
-                
-                // Force reflow to prevent initial animation
-                void slider.offsetWidth;
             }
+            
+            // Navigation
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateSlider();
+            });
+            
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                updateSlider();
+            });
+            
+            // Auto-advance (simplified for Google Sites)
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateSlider();
+            }, 5000);
         });
     </script>
 </body>
