@@ -10,22 +10,27 @@
   }
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #111;
+    background: #fff; /* white background behind slider */
     margin: 0; padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
   }
+  .container {
+    width: 100%;
+    max-width: 900px; /* max width of the slider container */
+    padding: 0 15px;   /* small horizontal padding so no overflow */
+    box-sizing: border-box;
+  }
   .slider {
     position: relative;
-    width: 100%;         /* fill the container */
-    max-width: 900px;    /* optional max width */
-    padding-top: 50%;    /* aspect ratio 2:1 (height is 50% of width) */
+    width: 100%;         /* full width inside container */
+    padding-top: 50%;    /* 2:1 aspect ratio */
     overflow: hidden;
     border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-    background: #222; /* fallback bg */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    background: #222; /* slider background */
   }
   .slides {
     display: flex;
@@ -130,7 +135,6 @@
   @media (max-width: 768px) {
     .slider {
       padding-top: 60%; /* slightly taller on smaller screens */
-      max-width: 100%;
       border-radius: 12px;
     }
     .slide-content {
@@ -193,44 +197,46 @@
 </head>
 <body>
 
-<div class="slider" aria-label="Image Slider">
-  <div class="slides">
-    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 1">
-      <div class="slide-content">
-        <h2>Discover the Mountains</h2>
-        <p>Explore the breathtaking views and nature’s wonders.</p>
-        <button>Explore Now</button>
+<div class="container" aria-label="Slider container">
+  <div class="slider" aria-label="Image Slider">
+    <div class="slides">
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 1">
+        <div class="slide-content">
+          <h2>Discover the Mountains</h2>
+          <p>Explore the breathtaking views and nature’s wonders.</p>
+          <button>Explore Now</button>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 2">
+        <div class="slide-content">
+          <h2>Sunset by the Beach</h2>
+          <p>Relax and enjoy stunning sunsets on the sandy shores.</p>
+          <button>Book Your Trip</button>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 3">
+        <div class="slide-content">
+          <h2>City Lights</h2>
+          <p>Experience the vibrant nightlife and urban adventures.</p>
+          <button>Discover More</button>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 4">
+        <div class="slide-content">
+          <h2>Forest Trails</h2>
+          <p>Take a peaceful walk through lush green forests.</p>
+          <button>Start Hiking</button>
+        </div>
       </div>
     </div>
-    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 2">
-      <div class="slide-content">
-        <h2>Sunset by the Beach</h2>
-        <p>Relax and enjoy stunning sunsets on the sandy shores.</p>
-        <button>Book Your Trip</button>
-      </div>
+    <div class="nav-arrow nav-prev" role="button" aria-label="Previous Slide" tabindex="0">&#10094;</div>
+    <div class="nav-arrow nav-next" role="button" aria-label="Next Slide" tabindex="0">&#10095;</div>
+    <div class="dots" role="tablist" aria-label="Slider Navigation">
+      <div class="dot active" role="tab" aria-selected="true" tabindex="0" aria-controls="slide1"></div>
+      <div class="dot" role="tab" tabindex="-1" aria-controls="slide2"></div>
+      <div class="dot" role="tab" tabindex="-1" aria-controls="slide3"></div>
+      <div class="dot" role="tab" tabindex="-1" aria-controls="slide4"></div>
     </div>
-    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 3">
-      <div class="slide-content">
-        <h2>City Lights</h2>
-        <p>Experience the vibrant nightlife and urban adventures.</p>
-        <button>Discover More</button>
-      </div>
-    </div>
-    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 4">
-      <div class="slide-content">
-        <h2>Forest Trails</h2>
-        <p>Take a peaceful walk through lush green forests.</p>
-        <button>Start Hiking</button>
-      </div>
-    </div>
-  </div>
-  <div class="nav-arrow nav-prev" role="button" aria-label="Previous Slide" tabindex="0">&#10094;</div>
-  <div class="nav-arrow nav-next" role="button" aria-label="Next Slide" tabindex="0">&#10095;</div>
-  <div class="dots" role="tablist" aria-label="Slider Navigation">
-    <div class="dot active" role="tab" aria-selected="true" tabindex="0" aria-controls="slide1"></div>
-    <div class="dot" role="tab" tabindex="-1" aria-controls="slide2"></div>
-    <div class="dot" role="tab" tabindex="-1" aria-controls="slide3"></div>
-    <div class="dot" role="tab" tabindex="-1" aria-controls="slide4"></div>
   </div>
 </div>
 
