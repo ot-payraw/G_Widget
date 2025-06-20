@@ -1,325 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Responsive Slider for Google Sites</title>
-<style>
-  * {
-    box-sizing: border-box;
-  }
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #fff; /* white background behind slider */
-    margin: 0; padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  .container {
-    width: 100%;
-    max-width: 900px; /* max width of the slider container */
-    padding: 0 15px;   /* small horizontal padding so no overflow */
-    box-sizing: border-box;
-  }
-  .slider {
-    position: relative;
-    width: 100%;         /* full width inside container */
-    padding-top: 50%;    /* 2:1 aspect ratio */
-    overflow: hidden;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-    background: #222; /* slider background */
-  }
-  .slides {
-    display: flex;
-    width: 400%; /* 4 slides */
-    height: 100%;
-    position: absolute;
-    top: 0; left: 0;
-    transition: transform 0.6s ease-in-out;
-  }
-  .slide {
-    flex: 1 0 100%;
-    position: relative;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 30px;
-    background-size: cover;
-    background-position: center;
-    height: 100%;
-  }
-  .slide-content {
-    background: rgba(0,0,0,0.5);
-    padding: 20px;
-    max-width: 90%;
-    border-radius: 10px;
-  }
-  .slide h2 {
-    margin-bottom: 10px;
-    font-size: 2.5rem;
-    line-height: 1.1;
-  }
-  .slide p {
-    font-size: 1.1rem;
-    line-height: 1.4;
-  }
-  .slide button {
-    margin-top: 20px;
-    padding: 12px 28px;
-    font-size: 1rem;
-    border: none;
-    background: #ff3366;
-    color: white;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    max-width: fit-content;
-  }
-  .slide button:hover {
-    background: #e6245d;
-  }
-  /* Navigation Arrows */
-  .nav-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.4);
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    color: white;
-    font-size: 2rem;
-    line-height: 45px;
-    text-align: center;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.3s ease;
-    z-index: 10;
-  }
-  .nav-arrow:hover {
-    background: rgba(0,0,0,0.7);
-  }
-  .nav-prev {
-    left: 15px;
-  }
-  .nav-next {
-    right: 15px;
-  }
-  /* Dots Navigation */
-  .dots {
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 12px;
-  }
-  .dot {
-    width: 14px;
-    height: 14px;
-    background: rgba(255,255,255,0.4);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  .dot.active {
-    background: #ff3366;
-    box-shadow: 0 0 5px #ff3366;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Slider</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-  /* RESPONSIVE IMPROVEMENTS */
-  @media (max-width: 768px) {
-    .slider {
-      padding-top: 60%; /* slightly taller on smaller screens */
-      border-radius: 12px;
-    }
-    .slide-content {
-      max-width: 90%;
-      padding: 15px;
-    }
-    .slide h2 {
-      font-size: 1.8rem;
-    }
-    .slide p {
-      font-size: 1rem;
-    }
-    .slide button {
-      padding: 10px 24px;
-      font-size: 0.9rem;
-    }
-    .nav-arrow {
-      width: 38px;
-      height: 38px;
-      font-size: 1.6rem;
-      line-height: 38px;
-    }
-  }
+        .slider-container {
+            width: 100%;
+            max-width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
 
-  @media (max-width: 480px) {
-    .slider {
-      padding-top: 70%; /* taller for very small screens */
-      border-radius: 0;
-    }
-    .slide-content {
-      max-width: 90%;
-      padding: 12px;
-      background: rgba(0,0,0,0.6);
-    }
-    .slide h2 {
-      font-size: 1.4rem;
-    }
-    .slide p {
-      font-size: 0.9rem;
-    }
-    .slide button {
-      padding: 8px 20px;
-      font-size: 0.85rem;
-    }
-    .nav-arrow {
-      width: 32px;
-      height: 32px;
-      font-size: 1.2rem;
-      line-height: 32px;
-    }
-    .dots {
-      gap: 8px;
-    }
-    .dot {
-      width: 12px;
-      height: 12px;
-    }
-  }
-</style>
+        .slider {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            color: white;
+            z-index: 2;
+            transform: translateY(0);
+            opacity: 1;
+            transition: all 0.5s ease;
+        }
+
+        .slide-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            max-width: 600px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            z-index: 3;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .slider-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 3;
+            transition: all 0.3s;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .slider-arrow:hover {
+            background: rgba(255, 255, 255, 0.7);
+            color: #333;
+        }
+
+        .slider-arrow.prev {
+            left: 20px;
+        }
+
+        .slider-arrow.next {
+            right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .slider-container {
+                height: 350px;
+            }
+            
+            .slide-title {
+                font-size: 1.8rem;
+            }
+            
+            .slide-text {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slider-container {
+                height: 300px;
+            }
+            
+            .slide-title {
+                font-size: 1.5rem;
+            }
+            
+            .slide-text {
+                font-size: 0.9rem;
+            }
+            
+            .slider-arrow {
+                width: 30px;
+                height: 30px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<div class="container" aria-label="Slider container">
-  <div class="slider" aria-label="Image Slider">
-    <div class="slides">
-      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 1">
-        <div class="slide-content">
-          <h2>Discover the Mountains</h2>
-          <p>Explore the breathtaking views and nature’s wonders.</p>
-          <button>Explore Now</button>
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide">
+                <img src="https://source.unsplash.com/random/1600x900/?nature,water" alt="Nature" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <h2 class="slide-title">Explore the Wonders</h2>
+                    <p class="slide-text">Discover breathtaking landscapes and untouched nature in our exclusive destinations around the world.</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="https://source.unsplash.com/random/1600x900/?city,night" alt="City" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <h2 class="slide-title">Urban Adventures</h2>
+                    <p class="slide-text">Experience the vibrant energy of the world's most exciting cities after dark.</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="https://source.unsplash.com/random/1600x900/?technology,future" alt="Technology" class="slide-image">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <h2 class="slide-title">Future Innovations</h2>
+                    <p class="slide-text">Witness the cutting-edge technologies that are shaping tomorrow's world today.</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 2">
-        <div class="slide-content">
-          <h2>Sunset by the Beach</h2>
-          <p>Relax and enjoy stunning sunsets on the sandy shores.</p>
-          <button>Book Your Trip</button>
-        </div>
-      </div>
-      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 3">
-        <div class="slide-content">
-          <h2>City Lights</h2>
-          <p>Experience the vibrant nightlife and urban adventures.</p>
-          <button>Discover More</button>
-        </div>
-      </div>
-      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=900&q=80')" role="group" aria-roledescription="slide" aria-label="Slide 4">
-        <div class="slide-content">
-          <h2>Forest Trails</h2>
-          <p>Take a peaceful walk through lush green forests.</p>
-          <button>Start Hiking</button>
-        </div>
-      </div>
+        
+        <div class="slider-nav"></div>
+        
+        <div class="slider-arrow prev">❮</div>
+        <div class="slider-arrow next">❯</div>
     </div>
-    <div class="nav-arrow nav-prev" role="button" aria-label="Previous Slide" tabindex="0">&#10094;</div>
-    <div class="nav-arrow nav-next" role="button" aria-label="Next Slide" tabindex="0">&#10095;</div>
-    <div class="dots" role="tablist" aria-label="Slider Navigation">
-      <div class="dot active" role="tab" aria-selected="true" tabindex="0" aria-controls="slide1"></div>
-      <div class="dot" role="tab" tabindex="-1" aria-controls="slide2"></div>
-      <div class="dot" role="tab" tabindex="-1" aria-controls="slide3"></div>
-      <div class="dot" role="tab" tabindex="-1" aria-controls="slide4"></div>
-    </div>
-  </div>
-</div>
 
-<script>
-  const slides = document.querySelector('.slides');
-  const slideCount = slides.children.length;
-  const dots = document.querySelectorAll('.dot');
-  const prevBtn = document.querySelector('.nav-prev');
-  const nextBtn = document.querySelector('.nav-next');
-  let currentIndex = 0;
-  let slideInterval = null;
-  const slideDuration = 5000;
-
-  function goToSlide(index) {
-    if(index < 0) index = slideCount - 1;
-    if(index >= slideCount) index = 0;
-    slides.style.transform = `translateX(-${index * 100}%)`;
-    dots.forEach(dot => {
-      dot.classList.remove('active');
-      dot.setAttribute('aria-selected', 'false');
-      dot.setAttribute('tabindex', '-1');
-    });
-    dots[index].classList.add('active');
-    dots[index].setAttribute('aria-selected', 'true');
-    dots[index].setAttribute('tabindex', '0');
-    currentIndex = index;
-  }
-
-  function nextSlide() {
-    goToSlide(currentIndex + 1);
-  }
-
-  function prevSlide() {
-    goToSlide(currentIndex - 1);
-  }
-
-  function startAutoSlide() {
-    slideInterval = setInterval(nextSlide, slideDuration);
-  }
-  function stopAutoSlide() {
-    clearInterval(slideInterval);
-  }
-
-  nextBtn.addEventListener('click', () => {
-    nextSlide();
-    stopAutoSlide();
-    startAutoSlide();
-  });
-
-  prevBtn.addEventListener('click', () => {
-    prevSlide();
-    stopAutoSlide();
-    startAutoSlide();
-  });
-
-  dots.forEach((dot, idx) => {
-    dot.addEventListener('click', () => {
-      goToSlide(idx);
-      stopAutoSlide();
-      startAutoSlide();
-    });
-    dot.addEventListener('keydown', e => {
-      if(e.key === 'Enter' || e.key === ' ') {
-        goToSlide(idx);
-        stopAutoSlide();
-        startAutoSlide();
-      }
-    });
-  });
-
-  [prevBtn, nextBtn].forEach(btn => {
-    btn.addEventListener('keydown', e => {
-      if(e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        btn.click();
-      }
-    });
-  });
-
-  // Initialize
-  goToSlide(0);
-  startAutoSlide();
-</script>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.querySelector('.slider');
+            const slides = document.querySelectorAll('.slide');
+            const dotsContainer = document.querySelector('.slider-nav');
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            
+            let currentIndex = 0;
+            const slideCount = slides.length;
+            
+            // Create dots
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('slider-dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+            
+            const dots = document.querySelectorAll('.slider-dot');
+            
+            // Auto slide
+            let slideInterval = setInterval(nextSlide, 5000);
+            
+            function goToSlide(index) {
+                currentIndex = index;
+                updateSlider();
+                resetInterval();
+            }
+            
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % slideCount;
+                updateSlider();
+            }
+            
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+                updateSlider();
+            }
+            
+            function updateSlider() {
+                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Update dots
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+            
+            function resetInterval() {
+                clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+            
+            // Event listeners
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                resetInterval();
+            });
+            
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                resetInterval();
+            });
+            
+            // Pause on hover
+            slider.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+            });
+            
+            slider.addEventListener('mouseleave', () => {
+                resetInterval();
+            });
+            
+            // Touch support
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            slider.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                clearInterval(slideInterval);
+            }, {passive: true});
+            
+            slider.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+                resetInterval();
+            }, {passive: true});
+            
+            function handleSwipe() {
+                const threshold = 50;
+                if (touchEndX < touchStartX - threshold) {
+                    nextSlide();
+                } else if (touchEndX > touchStartX + threshold) {
+                    prevSlide();
+                }
+            }
+            
+            // Responsive adjustments
+            function handleResize() {
+                slider.style.height = 'auto';
+                const newHeight = slider.offsetHeight;
+                document.querySelector('.slider-container').style.height = `${newHeight}px`;
+            }
+            
+            window.addEventListener('resize', handleResize);
+        });
+    </script>
 </body>
 </html>
