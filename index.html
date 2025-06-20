@@ -17,7 +17,7 @@
         .gs-slider-container {
             width: 100% !important;
             max-width: 100% !important;
-            height: 90%;
+            height: 400px;
             position: relative;
             overflow: hidden;
             border-radius: 8px;
@@ -117,12 +117,28 @@
         .gs-slider-arrow.next {
             right: 15px;
         }
+
+                /* Mobile fallback */
+        @media (max-width: 1300px) {
+            .gs-slider-container {
+                height: 300px;
+/*                 display: hidden; */
+            }
+            
+            .gs-slide-title {
+                font-size: 20px;
+            }
+            
+            .gs-slide-text {
+                font-size: 14px;
+            }
+        }
         
         /* Mobile fallback */
         @media (max-width: 760px) {
             .gs-slider-container {
-                height: 0px;
-                display: hidden;
+                height: 150px;
+/*                 display: hidden; */
             }
             
             .gs-slide-title {
